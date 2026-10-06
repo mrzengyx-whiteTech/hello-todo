@@ -1,0 +1,22 @@
+# hello-todo web 入口：静态托管 + /api 反代 + SPA 回退
+# 本地阶段无域名，仅 HTTP；上云绑定域名后 Caddy 自动签发 HTTPS
+:80 {
+	root * /usr/share/caddy
+	encode gzip
+
+	# API 反代到后端容器（compose 服务名 api）
+	handle /api/* {
+		reverse_proxy api:8000
+	}
+
+	# 健康检查也走反代，冒烟第 1 项 curl http://localhost/health
+	handle /health {
+		reverse_proxy api:8000
+	}
+
+	# SPA：静态资源命中则直出，否则回退 index.html 交给前端路由
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}

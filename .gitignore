@@ -1,0 +1,21 @@
+# 环境与密钥（红线：永不入库）
+.env
+.env.*
+!.env.example
+
+# 依赖与产物
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+htmlcov/
+.coverage
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

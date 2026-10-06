@@ -1,0 +1,5 @@
+# pnpm 设置文件（pnpm 11+ 起 package.json 的 pnpm 字段废弃，设置统一放这里）
+# 构建审批：允许 esbuild 执行安装脚本（Vite 构建依赖其二进制，主流工具链官方包）
+# pnpm 12 默认 strictDepBuilds=true，未列名的构建脚本会直接报错 ERR_PNPM_IGNORED_BUILDS
+allowBuilds:
+  esbuild: true
