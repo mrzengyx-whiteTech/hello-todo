@@ -30,7 +30,7 @@ git checkout main && git pull        # main 是受保护分支，只拉不推
 docker compose up -d --build         # 有代码变更的服务会重建并滚动替换
 ```
 
-CI 阶段（GitHub Actions，待配）：合并 main 前跑测试与构建验证；本阶段不做自动部署。
+CI 阶段（GitHub Actions，已配 `.github/workflows/ci.yml`）：PR 与 push 到 main 时跑前端 eslint+vitest+build、后端 ruff+pytest、`docker compose build` 构建验证；本阶段不做自动部署。建议在仓库 Settings 把三个 job 设为 main 的必过检查（分支保护）。
 
 ## 5. 回滚
 
