@@ -80,4 +80,4 @@ backend/app/
 
 - 单容器单库，无备份策略（本地演练环境；上云时按 ADR-0001 配 pg_dump + 快照）
 - 无鉴权（公开演示接口）；真实业务项目启用 PyJWT + passlib（已入技术宪法扩展组件）
-- 后续：GitHub Actions CI（测试 + 构建验证）→ 上云（见 docs/adr/0001）
+- 已配：GitHub Actions CI（`.github/workflows/ci.yml`，测试 + 构建验证，2026-10-07）；后续：上云（见 docs/adr/0001）

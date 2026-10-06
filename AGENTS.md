@@ -25,6 +25,7 @@
 ```text
 hello-todo/
 ├── .kimi-code/agents/linus.md   # 数字员工角色档案
+├── .github/workflows/ci.yml     # CI：PR/push 到 main 跑前后端检查 + compose 构建验证
 ├── docker-compose.yml           # 本地一键部署：web + api + db
 ├── frontend/                    # Vue 3 前端（pnpm）
 │   └── src/{api,components,stores,views,router}
