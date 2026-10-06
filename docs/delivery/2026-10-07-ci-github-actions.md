@@ -31,6 +31,13 @@
 1. **pnpm 版本钉住 11.7.0 会把 Docker 构建打挂**：11.7 的「运行脚本前依赖状态检查」基于文件 mtime，`COPY . .` 刷新 lockfile 时间戳后被误判过期，非 TTY 环境直接 abort（`ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY`）。pnpm 12 改用内容比对无此问题，且容器既往冒烟用的就是 12.x。故 pin 改为 12.9.1 并用 compose build 实测通过。
 2. **存量代码 ruff 不过（6 个错）+ 依赖无锁**：无 uv.lock 时 `uv sync` 每次解析最新版，本次装到 ruff 0.16.10 直接暴露存量 I001×2 + B008×4（FastAPI `Depends` 惯用法误报）。修复：B008 配置豁免 + 自动修复排序；并**改变 P1「不提交 uv.lock」的决定**——本次偷袭证明无锁 CI 必然漂移，已提交锁文件并改 `uv sync --locked`。
 
+## P4 线上首战（PR #1 真实运行，又抓两个本地彩排抓不到的问题）
+
+3. **`pnpm/action-setup` 默认读仓库根的 package.json**：本仓库是 monorepo 布局，pnpm 在 `frontend/`，首轮前端 job 8 秒报「No pnpm version is specified」。修复：`package_json_file: frontend/package.json` 显式指路。
+4. **pnpm 12 把自身写进 lockfile**：`packageManager` 字段触发 pnpm 12 的 `packageManagerDependencies` 特性（pnpm 可执行体作为锁定依赖写入 lockfile 头部独立 YAML 文档），旧 lockfile 缺这段 → `--frozen-lockfile` 拒绝。修复：用 pnpm 12.9.1 本地 `pnpm install` 一次更新 lockfile 提交。附带发现：pnpm ≥11 检测到 `packageManager` 字段会自动切换自身版本（本地 11.7.0 实跑时已自动跳到 12.9.1），三端版本一致性由此真正闭环。
+
+最终 PR #1 三个 job 全绿（前端 22s / 后端 11s / Docker 16s），CI 在自己的 PR 上完成首次实战验证。
+
 ## 如何验证（老板自测步骤）
 
 1. 看 PR 页面 Checks 标签：三个 job（前端/后端/Docker 构建）应全绿
