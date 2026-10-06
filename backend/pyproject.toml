@@ -28,6 +28,11 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
+# FastAPI 依赖注入的标准写法 db: Session = Depends(get_db) 会误触 B008，
+# 官方推荐把 Depends 声明为不可变调用豁免（依赖注入容器保证每请求新实例，无共享默认值风险）
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q --cov=app --cov-report=term-missing"

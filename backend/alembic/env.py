@@ -2,9 +2,9 @@
 
 from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from alembic import context
 from app.core.config import settings
 from app.core.database import Base
 from app.models import task as _task  # noqa: F401  # 确保模型已注册到 Base.metadata
