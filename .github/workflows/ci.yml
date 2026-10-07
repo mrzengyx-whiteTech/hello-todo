@@ -37,7 +37,8 @@ jobs:
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
+      # --max-warnings 0：warning 也视为失败，防「只提示不拦截」退化（遗留①闭环）
+      - run: pnpm lint --max-warnings 0
       - run: pnpm test
       - run: pnpm build
 

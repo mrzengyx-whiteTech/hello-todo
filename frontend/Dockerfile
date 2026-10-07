@@ -6,7 +6,8 @@ RUN corepack enable
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
-RUN pnpm install --frozen-lockfile || pnpm install
+# 锁文件必须与 package.json 一致：frozen 失败即构建失败，不再静默 fallback 掩盖漂移
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 RUN pnpm build
