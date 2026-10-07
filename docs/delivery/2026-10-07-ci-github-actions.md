@@ -61,7 +61,7 @@
 ## 遗留与建议
 
 - 分支保护（必过检查）需老板在 GitHub 设置里开启，我无权操作 main；开完后本门禁闭环
-- 前端 15 个 eslint warning（vue 模板风格类）建议下个小任务清零，可考虑 `pnpm lint --max-warnings 0` 收紧
-- Dockerfile 里 `pnpm install --frozen-lockfile || pnpm install` 的静默兜底会掩盖锁文件漂移，建议去掉 `|| pnpm install`
+- ~~前端 15 个 eslint warning（vue 模板风格类）建议下个小任务清零，可考虑 `pnpm lint --max-warnings 0` 收紧~~ **已处理 2026-10-07**，见 docs/delivery/2026-10-07-pr1-leftovers.md
+- ~~Dockerfile 里 `pnpm install --frozen-lockfile || pnpm install` 的静默兜底会掩盖锁文件漂移，建议去掉 `|| pnpm install`~~ **已处理 2026-10-07**，同上
 - 后端 Dockerfile 仍用 `uv pip install --system` 内联依赖清单，与 pyproject/uv.lock 双写维护，建议后续统一改为 `uv sync` 系
 - push 到 main 的 CI 结果目前没有通知渠道，可在上云任务里一并考虑（GitHub 邮件通知默认已够 hello 级）
