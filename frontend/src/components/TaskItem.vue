@@ -21,7 +21,7 @@ const emit = defineEmits(['toggle', 'remove'])
       class="h-5 w-5 accent-emerald-600"
       :aria-label="`切换完成：${task.title}`"
       @change="emit('toggle', task)"
-    />
+    >
     <span
       class="flex-1 text-slate-800"
       :class="{ 'text-slate-400 line-through': task.done }"
